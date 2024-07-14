@@ -1,35 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon/apple-touch-icon.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon/favicon-16x16.png">
-        <link rel="manifest" href="/static/favicon/site.webmanifest">
-        <link rel="mask-icon" href="/static/favicon/safari-pinned-tab.svg" color="#9933ff">
-        <meta name="apple-mobile-web-app-title" content="VY Luxury">
-        <meta name="application-name" content="VY Luxury">
-        <meta name="msapplication-TileColor" content="#9933ff">
-        <meta name="theme-color" content="#ffffff">
-        <title>VY Luxury</title>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/static/favicon/site.webmanifest">
+    <link rel="mask-icon" href="/static/favicon/safari-pinned-tab.svg" color="#9933ff">
+    <meta name="apple-mobile-web-app-title" content="VY Luxury">
+    <meta name="application-name" content="VY Luxury">
+    <meta name="msapplication-TileColor" content="#9933ff">
+    <meta name="theme-color" content="#ffffff">
+    <title>VY Luxury</title>
 
-        <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style.css" />
 
-        <script type="importmap">
-            {
-              "imports": {
-                "three": "https://unpkg.com/three/build/three.module.js",
-                "three/addons/": "https://unpkg.com/three/examples/jsm/"
-              }
-            }
-        </script>
+    <script type="importmap">
+        {
+          "imports": {
+            "three": "https://unpkg.com/three/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three/examples/jsm/",
+            "three/examples/jsm/loaders/GLTFLoader.js": "https://unpkg.com/three@0.166.1/examples/jsm/loaders/GLTFLoader.js"
+          }
+        }
+    </script>
 
-    </head>
-    <body>
+</head>
+<body>
+    
+    <div class="background-text">
+      <h1>VY Luxury</h1>
+      <h2>Website Coming Soon</h2>
+    </div>
 
-      <script type="module" src="/main.js"></script>
-        
+    <div id="canvas-container"></div>
 
-    </body>
+
+
+    <script type="module" src="/main.js"></script>
+</body>
 </html>
