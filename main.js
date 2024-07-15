@@ -1,14 +1,38 @@
 import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControl.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+// Information
+//
+// Units: mm, 
+//
 
+// Scene 
+const scene = new THREE.Scene();
+
+// Sizes
+// const sizes = {
+//   width: window.innerWidth,
+//   height: window.innerHeight,
+// }
+
+// Camera
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+camera.position.z = 30;
+
+// Renderer
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setAnimationLoop(animate);
 document.getElementById('canvas-container').appendChild(renderer.domElement);
 
+// Controls
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableRotate = false
+controls.enableDamping = true
+controls.maxDistance = 100
+
+// Create Torus Object
 const geometry = new THREE.TorusGeometry(12, 3.5, 16, 100);
 const material = new THREE.MeshBasicMaterial({
   color: 0xFFFDD0,
@@ -36,8 +60,7 @@ loader.load(
   }
 );
 
-camera.position.z = 30;
-
+// Animate
 function animate() {
   // Rotate the model if you want
   if (scene.children.length > 0) {
@@ -49,3 +72,11 @@ function animate() {
 
   renderer.render(scene, camera);
 }
+
+// Resize
+window.addEventListener("resize", () => {
+  // Update Camera
+  camera.aspect = window.innerWidth / window.innerHeight
+  camera.updateProjectionMatrix()
+  renderer.setSize(window.innerWidth, window.innerHeight)
+})

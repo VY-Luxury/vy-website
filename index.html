@@ -16,12 +16,15 @@
 
     <link rel="stylesheet" href="style.css" />
 
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet"/>
+
     <script type="importmap">
         {
           "imports": {
             "three": "https://unpkg.com/three/build/three.module.js",
             "three/addons/": "https://unpkg.com/three/examples/jsm/",
-            "three/examples/jsm/loaders/GLTFLoader.js": "https://unpkg.com/three@0.166.1/examples/jsm/loaders/GLTFLoader.js"
+            "three/examples/jsm/loaders/GLTFLoader.js": "https://unpkg.com/three/examples/jsm/loaders/GLTFLoader.js",
+            "three/examples/jsm/controls/OrbitControl.js": "https://unpkg.com/three/examples/jsm/controls/OrbitControls.js"
           }
         }
     </script>
@@ -31,12 +34,16 @@
     
     <div class="background-text">
       <h1>VY Luxury</h1>
-      <h2>Website Coming Soon</h2>
     </div>
 
     <div id="canvas-container"></div>
-
-
+    <nav>
+      <a href="/">VY Luxury</a>
+      <ul>
+        <li>Contact Us</li>
+      </ul>
+    </nav>
+    <h1 class="title">Website Coming Soon</h1>
 
     <script type="module" src="/main.js"></script>
 </body>
