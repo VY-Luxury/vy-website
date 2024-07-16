@@ -10,12 +10,6 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 // Scene 
 const scene = new THREE.Scene();
 
-// Sizes
-// const sizes = {
-//   width: window.innerWidth,
-//   height: window.innerHeight,
-// }
-
 // Camera
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 camera.position.z = 14;
@@ -177,5 +171,4 @@ async function startVirtualTryOn() {
 }
 
 // Add event listener to the button
-const button = document.getElementById('virtual-try-on-button');
-button.addEventListener('click', initVirtualTryOn);
+document.getElementById('virtual-try-on-button').addEventListener('click', initVirtualTryOn);
