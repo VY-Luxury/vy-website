@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Glasses Try-On</title>
+    <style>
+        body { margin: 0; overflow: hidden; }
+        #video, canvas {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <video id="video" autoplay playsinline></video>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script type="module">
+        import { OrbitControls } from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/examples/jsm/controls/OrbitControls.js';
+        import { GLTFLoader } from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/examples/jsm/loaders/GLTFLoader.js';
+
+        // Initialize variables
+        let scene, cameraThree, renderer, controls, glasses;
+        const videoElement = document.getElementById('video');
+
+        // Function to initialize Three.js
+        function init() {
+            // Initialize Three.js
+            scene = new THREE.Scene();
+            cameraThree = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            renderer = new THREE.WebGLRenderer();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            controls = new OrbitControls(cameraThree, renderer.domElement);
+            cameraThree.position.set(0, 0, 5);
+            controls.update();
+
+            const light = new THREE.DirectionalLight(0xffffff, 1);
+            light.position.set(0, 0, 10).normalize();
+            scene.add(light);
+
+            // Load the 3D glasses model
+            const loader = new GLTFLoader();
+            loader.load('path/to/your/glasses_model.glb', function (gltf) {
+                glasses = gltf.scene;
+                glasses.scale.set(0.1, 0.1, 0.1); // Adjust scale as necessary
+                scene.add(glasses);
+            });
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                cameraThree.aspect = window.innerWidth / window.innerHeight;
+                cameraThree.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+
+            animate();
+        }
+
+        // Function to animate the Three.js scene
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            renderer.render(scene, cameraThree);
+        }
+
+        // Function to start the virtual try-on experience
+        async function startVirtualTryOn() {
+            // Initialize MediaPipe Face Mesh
+            const faceMesh = new FaceMesh({
+                locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`
+            });
+            faceMesh.setOptions({
+                maxNumFaces: 1,
+                refineLandmarks: true,
+                minDetectionConfidence: 0.5,
+                minTrackingConfidence: 0.5
+            });
+
+            const camera = new Camera(videoElement, {
+                onFrame: async () => {
+                    await faceMesh.send({ image: videoElement });
+                },
+                width: 640,
+                height: 480
+            });
+            camera.start();
+
+            faceMesh.onResults(onResults);
+        }
+
+        // Function to handle the results from MediaPipe Face Mesh
+        function onResults(results) {
+            if (!results.multiFaceLandmarks || results.multiFaceLandmarks.length === 0) return;
+            const landmarks = results.multiFaceLandmarks[0];
+            const leftEye = landmarks[33];
+            const rightEye = landmarks[263];
+            const nose = landmarks[1];
+
+            const leftEyePosition = new THREE.Vector3(leftEye.x * 2 - 1, -(leftEye.y * 2 - 1), -leftEye.z);
+            const rightEyePosition = new THREE.Vector3(rightEye.x * 2 - 1, -(rightEye.y * 2 - 1), -rightEye.z);
+            const nosePosition = new THREE.Vector3(nose.x * 2 - 1, -(nose.y * 2 - 1), -nose.z);
+
+            if (glasses) {
+                // Position the glasses
+                const centerPosition = leftEyePosition.clone().add(rightEyePosition).multiplyScalar(0.5);
+                glasses.position.copy(centerPosition);
+                glasses.lookAt(nosePosition);
+            }
+        }
+
+        // Initialize Three.js and start the virtual try-on experience
+        init();
+        startVirtualTryOn();
+    </script>
+</body>
+</html>
