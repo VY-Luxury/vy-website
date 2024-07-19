@@ -41,24 +41,56 @@ const material = new THREE.MeshBasicMaterial({
 const object = new THREE.Mesh(geometry, material);
 scene.add(object);
 
-// Load the .glb model
+// Load the .glb models
+// First glb model path /static/models/CE Blender Exp - Copy.glb
+// Second glb model path /static/models/OG Frames.glb
+
 const loader = new GLTFLoader();
-loader.load(
-  '/static/models/VY-Frames1.glb',
-  function (gltf) {
-    const model = gltf.scene;
-    console.log('Model loaded:', model); // Debugging line
+let currentModel = null;
+let isModel1Displayed = true;
 
-    model.position.set(0, 0, 0);
-    model.scale.set(1, 1, 1);
-
-    scene.add(model);
-  },
-  undefined,
-  function (error) {
-    console.error('Error loading model:', error); // Debugging line
+function loadModel(modelPath) {
+  // Remove the current model from the scene
+  if (currentModel) {
+    scene.remove(currentModel);
   }
-);
+
+  // Load the new model
+  loader.load(
+    modelPath,
+    function (gltf) {
+      const newModel = gltf.scene;
+      console.log('New model loaded:', newModel); // Debugging line
+
+      newModel.position.set(0, 0, 0);
+      newModel.scale.set(1, 1, 1);
+
+      scene.add(newModel);
+      currentModel = newModel;
+    },
+    undefined,
+    function (error) {
+      console.error('Error loading new model:', error); // Debugging line
+    }
+  );
+}
+
+// Function to toggle between models
+function toggleModel() {
+  if (isModel1Displayed) {
+    loadModel('/static/models/CE Blender Exp - Copy.glb');
+  } else {
+    loadModel('/static/models/OG Blender Exp - Copy.glb');
+  }
+  isModel1Displayed = !isModel1Displayed;
+}
+
+// Button event listener
+const changeModelButton = document.getElementById('change-model-button');
+changeModelButton.addEventListener('click', toggleModel);
+
+// Display the initial model
+loadModel('/static/models/OG Blender Exp - Copy.glb');
 
 // Animate
 function animate() {
@@ -80,3 +112,37 @@ window.addEventListener("resize", () => {
   camera.updateProjectionMatrix()
   renderer.setSize(window.innerWidth, window.innerHeight)
 })
+
+
+// Add event listener to a button in index.html
+const contactButton = document.getElementById('contact-button');
+contactButton.addEventListener('click', openContactWindow);
+function openContactWindow() {
+  const contactEmail = 'vyluxurysales@gmail.com';
+
+  const contactWindow = document.createElement('div');
+  contactWindow.style.position = 'fixed';
+  contactWindow.style.top = '50%';
+  contactWindow.style.left = '50%';
+  contactWindow.style.transform = 'translate(-50%, -50%)';
+  contactWindow.style.padding = '10px';
+  contactWindow.style.backgroundColor = 'white';
+  contactWindow.style.border = '1px solid black';
+  contactWindow.style.borderRadius = '5px';
+  contactWindow.style.zIndex = '9999';
+
+  const emailText = document.createElement('p');
+  emailText.textContent = 'Contact Email: ' + contactEmail;
+  emailText.style.margin = '0';
+
+  const closeButton = document.createElement('button');
+  closeButton.textContent = 'Close';
+  closeButton.addEventListener('click', () => {
+    document.body.removeChild(contactWindow);
+  });
+
+  contactWindow.appendChild(emailText);
+  contactWindow.appendChild(closeButton);
+
+  document.body.appendChild(contactWindow);
+}

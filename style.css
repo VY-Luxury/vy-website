@@ -34,6 +34,13 @@ nav ul {
     font-style: normal;
 }
 
+.scroll-text {
+    color: #FFFDD0;
+    z-index: 2;
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+}
 .background-text {
     color: #FFFDD0;
     z-index: 2;
