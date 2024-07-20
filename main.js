@@ -78,9 +78,9 @@ function loadModel(modelPath) {
 // Function to toggle between models
 function toggleModel() {
   if (isModel1Displayed) {
-    loadModel('/static/models/CE Blender Exp - Copy.glb');
+    loadModel('/static/models/CE-Frames.glb');
   } else {
-    loadModel('/static/models/OG Blender Exp - Copy.glb');
+    loadModel('/static/models/OG-Frames.glb');
   }
   isModel1Displayed = !isModel1Displayed;
 }
@@ -90,7 +90,7 @@ const changeModelButton = document.getElementById('change-model-button');
 changeModelButton.addEventListener('click', toggleModel);
 
 // Display the initial model
-loadModel('/static/models/OG Blender Exp - Copy.glb');
+loadModel('/static/models/OG-Frames.glb');
 
 // Animate
 function animate() {
@@ -126,7 +126,7 @@ function openContactWindow() {
   contactWindow.style.left = '50%';
   contactWindow.style.transform = 'translate(-50%, -50%)';
   contactWindow.style.padding = '10px';
-  contactWindow.style.backgroundColor = 'white';
+  contactWindow.style.backgroundColor = '#FFFDD0';
   contactWindow.style.border = '1px solid black';
   contactWindow.style.borderRadius = '5px';
   contactWindow.style.zIndex = '9999';
